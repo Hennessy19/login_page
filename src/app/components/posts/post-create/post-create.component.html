@@ -1,1 +1,54 @@
-<p>post-create works!</p>
+<div class="post-form-container">
+    <div class="back-navigation">
+      <a [routerLink]="['/posts']" class="back-link">← Back to Posts</a>
+    </div>
+  
+    <div class="form-card">
+      <h1>Create New Post</h1>
+  
+      <div *ngIf="error" class="error-message">
+        {{ error }}
+      </div>
+  
+      <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input 
+            type="text" 
+            id="title" 
+            formControlName="title" 
+            class="form-control" 
+            [ngClass]="{'is-invalid': f['title'].touched && f['title'].errors}"
+            placeholder="Enter post title"
+          >
+          <div *ngIf="f['title'].touched && f['title'].errors" class="error-messages">
+            <div *ngIf="f['title'].errors['required']">Title is required</div>
+            <div *ngIf="f['title'].errors['minlength']">Title must be at least 3 characters</div>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="body">Content</label>
+          <textarea 
+            id="body" 
+            formControlName="body" 
+            class="form-control" 
+            [ngClass]="{'is-invalid': f['body'].touched && f['body'].errors}"
+            rows="6" 
+            placeholder="Enter post content"
+          ></textarea>
+          <div *ngIf="f['body'].touched && f['body'].errors" class="error-messages">
+            <div *ngIf="f['body'].errors['required']">Content is required</div>
+            <div *ngIf="f['body'].errors['minlength']">Content must be at least 10 characters</div>
+          </div>
+        </div>
+  
+        <div class="form-actions">
+          <button type="button" [routerLink]="['/posts']" class="btn btn-cancel">Cancel</button>
+          <button type="submit" class="btn btn-submit" [disabled]="submitting">
+            {{ submitting ? 'Creating...' : 'Create Post' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>

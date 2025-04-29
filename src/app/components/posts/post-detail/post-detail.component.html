@@ -1,1 +1,29 @@
-<p>post-detail works!</p>
+<div class="post-detail-container">
+    <div class="back-navigation">
+      <a [routerLink]="['/posts']" class="back-link">← Back to Posts</a>
+    </div>
+  
+    <div *ngIf="loading" class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading post...</p>
+    </div>
+  
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+    </div>
+  
+    <div *ngIf="!loading && !error && post" class="post-content">
+      <h1 class="post-title">{{ post.title }}</h1>
+      <p class="post-body">{{ post.body }}</p>
+      
+      <div class="post-actions">
+        <a [routerLink]="['/posts', post.id, 'edit']" class="btn btn-edit">Edit</a>
+        <button class="btn btn-delete" (click)="deletePost()">Delete</button>
+      </div>
+    </div>
+  
+    <div *ngIf="!loading && !error && !post" class="not-found">
+      <h2>Post not found</h2>
+      <p>The post you're looking for doesn't exist or has been removed.</p>
+    </div>
+  </div>
