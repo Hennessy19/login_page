@@ -1,0 +1,58 @@
+<!-- src/app/components/posts/post-list/post-list.component.html -->
+<div class="post-list-container">
+    <div class="post-list-header">
+      <h1>Posts</h1>
+      <a [routerLink]="['/posts/create']" class="btn btn-create">Create New Post</a>
+    </div>
+  
+    <div *ngIf="loading" class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading posts...</p>
+    </div>
+  
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+    </div>
+  
+    <div *ngIf="!loading && !error && posts.length === 0" class="no-posts">
+      <p>No posts found.</p>
+    </div>
+  
+    <div *ngIf="!loading && !error && posts.length > 0" class="posts-grid">
+      <div *ngFor="let post of posts" class="post-card">
+        <h2 class="post-title">{{ post.title }}</h2>
+        <p class="post-body">{{ post.body.substring(0, 100) }}{{ post.body.length > 100 ? '...' : '' }}</p>
+        <div class="post-actions">
+          <a [routerLink]="['/posts', post.id]" class="btn btn-view">View</a>
+          <a [routerLink]="['/posts', post.id, 'edit']" class="btn btn-edit">Edit</a>
+          <button class="btn btn-delete" (click)="deletePost(post.id!, $event)">Delete</button>
+        </div>
+      </div>
+    </div>
+  
+    <div class="pagination" *ngIf="totalPages > 1">
+      <button 
+        class="pagination-btn" 
+        [disabled]="currentPage === 1" 
+        (click)="onPageChange(currentPage - 1)">
+        Previous
+      </button>
+      
+      <div class="page-numbers">
+        <button 
+          *ngFor="let page of pages" 
+          class="page-number" 
+          [class.active]="page === currentPage"
+          (click)="onPageChange(page)">
+          {{ page }}
+        </button>
+      </div>
+      
+      <button 
+        class="pagination-btn" 
+        [disabled]="currentPage === totalPages" 
+        (click)="onPageChange(currentPage + 1)">
+        Next
+      </button>
+    </div>
+  </div>
