@@ -1,0 +1,93 @@
+<div class="form-validator-container">
+    <div class="form-card">
+      <h1>Dynamic Form Validator</h1>
+      <p class="form-description">
+        This form uses a dynamic validation system that can validate fields based on configurable rules.
+      </p>
+  
+      <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input 
+            type="text" 
+            id="name" 
+            formControlName="name" 
+            class="form-control" 
+            [ngClass]="{'is-invalid': submitted && dynamicForm.get('name')?.invalid}"
+            placeholder="Enter your name"
+          >
+          <div class="error-messages" *ngIf="submitted && getFieldErrors('name').length > 0">
+            <div *ngFor="let error of getFieldErrors('name')">{{ error }}</div>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input 
+            type="email" 
+            id="email" 
+            formControlName="email" 
+            class="form-control" 
+            [ngClass]="{'is-invalid': submitted && dynamicForm.get('email')?.invalid}"
+            placeholder="Enter your email"
+          >
+          <div class="error-messages" *ngIf="submitted && getFieldErrors('email').length > 0">
+            <div *ngFor="let error of getFieldErrors('email')">{{ error }}</div>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input 
+            type="tel" 
+            id="phone" 
+            formControlName="phone" 
+            class="form-control" 
+            [ngClass]="{'is-invalid': submitted && dynamicForm.get('phone')?.invalid}"
+            placeholder="Enter your phone number"
+          >
+          <div class="error-messages" *ngIf="submitted && getFieldErrors('phone').length > 0">
+            <div *ngFor="let error of getFieldErrors('phone')">{{ error }}</div>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            formControlName="password" 
+            class="form-control" 
+            [ngClass]="{'is-invalid': submitted && dynamicForm.get('password')?.invalid}"
+            placeholder="Enter your password"
+          >
+          <div class="error-messages" *ngIf="submitted && getFieldErrors('password').length > 0">
+            <div *ngFor="let error of getFieldErrors('password')">{{ error }}</div>
+          </div>
+        </div>
+  
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" class="btn btn-secondary" (click)="dynamicForm.reset(); submitted = false;">Reset</button>
+        </div>
+      </form>
+  
+      <div class="validation-config">
+        <h2>Validation Configuration</h2>
+        <p>This form uses the following validation rules:</p>
+        
+        <div class="validation-rules">
+          <div *ngFor="let field of fieldConfigs" class="field-rules">
+            <h3>{{ field.name }}</h3>
+            <ul>
+              <li *ngFor="let rule of field.rules">
+                <strong>{{ rule.type }}</strong>
+                <span *ngIf="rule.value"> - Value: {{ rule.value }}</span>
+                <div class="rule-message">Message: "{{ rule.message }}"</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
